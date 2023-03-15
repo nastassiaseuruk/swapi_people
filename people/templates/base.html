@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Fetch Data</title>
+  </head>
+  <body>
+    <h1>Fetch Data</h1>
+    <button id="fetch-button">Fetch Data</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Collection List</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in collections %}
+          <tr>
+            <td><a href="/collection/{{ item.id }}/">{{ item.id }} {{ item.date_created }}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script>
+      const fetchButton = document.getElementById('fetch-button');
+
+      fetchButton.addEventListener('click', async () => {
+        await fetch('/load_new_dataset/');
+        location.reload();
+      });
+    </script>
+  </body>
+</html>
+

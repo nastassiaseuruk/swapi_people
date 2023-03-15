@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "swapi_people"
+version = "0.1.0"
+description = "API for downloading and storing csv files with sw people"
+authors = ["Nastassia Seuruk <nastassia.seuruk@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.1.7"
+petl = "^1.7.12"
+requests = "^2.28.2"
+psycopg2-binary = "^2.9.5"
+httpx = "^0.23.3"
+dataclass-csv = "^1.4.0"
+numpy = "^1.24.2"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.2"
+mypy = "^1.1.1"
+django-stubs = "^1.15.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

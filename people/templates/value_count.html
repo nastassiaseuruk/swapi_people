@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+            border: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			cursor: pointer;
+			float: right;
+			margin-top: 10px;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+
+<body>
+    <div class="container">
+    <br><br><br>
+        <a href="{% url 'colections-view' %}" role="button">Back To Main Page</a>
+        <a href="{% url 'colection-detail-view' file_name %}"><h1>{{ file_name }}.csv</h1></a>
+    <table class="table table-bordered" id ="values_selection"style="text-align: center;">
+  <thead class="table-success">
+    <tr>
+      <th class="selectable">name</th>
+      <th class="selectable">height</th>
+      <th class="selectable">mass</th>
+      <th class="selectable">hair_color</th>
+      <th class="selectable">skin_color</th>
+      <th class="selectable">eye_color</th>
+      <th class="selectable">birth_year</th>
+      <th class="selectable">gender</th>
+      <th class="selectable">homeworld</th>
+      <th class="selectable">date</th>
+        <th>Count</th>
+    </tr>
+  </thead>
+    </table>
+    <br><br><br>
+    <table class="table table-bordered" id ="body"style="text-align: center;">
+        <thead>
+          <tr>
+            {% for header in headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+      </tr>
+    </thead>
+<tbody>
+<tr>
+            {% for item in table %}
+                <tr>
+                {% for key in item %}
+                <td>{{ key }}</td>
+            {% endfor %}
+                </tr>
+        {% endfor %}
+      </tr>
+    </tbody>
+        </table>
+
+    </div>
+
+</body>
+<script>
+    var headers = document.querySelectorAll('.selectable');
+    var urlParams = new URLSearchParams(window.location.search);
+
+    headers.forEach(function(header) {
+      // Check if header is already selected based on query params
+      if (urlParams.has('fields')) {
+        var selectedFields = urlParams.get('fields').split(',');
+        if (selectedFields.includes(header.textContent)) {
+          header.classList.add('selected');
+        }
+      }
+
+      header.addEventListener('click', function() {
+        if (header.classList.contains('selected')) {
+          header.classList.remove('selected');
+          // Remove field from query param
+          var selectedHeaders = document.querySelectorAll('.selected');
+          var selectedFields = Array.from(selectedHeaders, header => header.textContent);
+          urlParams.set('fields', selectedFields.join(','));
+          var newUrl = '{% url "colection-detail-view-value" file_name  %}' + '?' + urlParams.toString();
+          window.location.href = newUrl;
+        } else {
+          header.classList.add('selected');
+          // Add field to query param
+          var selectedHeaders = document.querySelectorAll('.selected');
+          var selectedFields = Array.from(selectedHeaders, header => header.textContent);
+          urlParams.set('fields', selectedFields.join(','));
+          var newUrl = '{% url "colection-detail-view-value" file_name  %}' + '?' + urlParams.toString();
+          window.location.href = newUrl;
+        }
+      });
+    });
+</script>
+</html>
+

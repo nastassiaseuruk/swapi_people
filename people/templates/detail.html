@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Characters</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+            border: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			cursor: pointer;
+			float: right;
+			margin-top: 10px;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+        <a href="{% url 'colections-view' %}" role="button">Back To Main Page</a>
+		<h1>{{ file_name }}.csv</h1>
+		<table>
+			<thead>
+				<tr>
+                  <th class="selectable">name</th>
+                  <th class="selectable">height</th>
+                  <th class="selectable">mass</th>
+                  <th class="selectable">hair_color</th>
+                  <th class="selectable">skin_color</th>
+                  <th class="selectable">eye_color</th>
+                  <th class="selectable">birth_year</th>
+                  <th class="selectable">gender</th>
+                  <th class="selectable">homeworld</th>
+                  <th class="selectable">date</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in table %}
+				<tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.height }}</td>
+        <td>{{ item.mass }}</td>
+        <td>{{ item.hair_color }}</td>
+        <td>{{ item.skin_color }}</td>
+        <td>{{ item.eye_color }}</td>
+        <td>{{ item.birth_year }}</td>
+        <td>{{ item.gender }}</td>
+        <td>{{ item.homeworld }}</td>
+        <td>{{ item.date }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    {% if next_page %}
+        <a href="{% url 'colection-detail-view' file_name %}?page={{next_page}}" role="button">Load More</a>
+    {% endif %}
+	</div>
+</body>
+<script>
+    var headers = document.querySelectorAll('.selectable');
+    headers.forEach(function(header) {
+      header.addEventListener('click', function() {
+        // Check if header is already selected
+        if (header.classList.contains('selected')) {
+          header.classList.remove('selected');
+        } else {
+          header.classList.add('selected');
+        }
+      var selectedFields = [];
+      var selectedHeaders = document.querySelectorAll('.selected');
+      selectedHeaders.forEach(function(header) {
+        selectedFields.push(header.textContent);
+        console.log(selectedHeaders)
+      });
+      var url = '{% url "colection-detail-view-value" file_name  %}?fields=' + encodeURIComponent(selectedFields.join(','));
+      window.location.href = url;
+      });
+    });
+</script>
+
+</html>
